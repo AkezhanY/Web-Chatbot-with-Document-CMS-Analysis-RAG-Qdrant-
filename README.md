@@ -31,6 +31,7 @@ Vector DB: Qdrant (COSINE)
 
 LLM: Ollama (qwen2.5:7b-instruct)
 
+
 🚀 Run Locally
 
 Prereqs: Python 3.10+, Docker (for Qdrant) or Qdrant Cloud, Ollama installed.
@@ -49,41 +50,63 @@ ollama serve
 Backend
 
 cd backend
+
 python -m venv .venv
+
 # Windows: . .venv/Scripts/activate
+
 # macOS/Linux: source .venv/bin/activate
+
 pip install -r requirements.txt
+
 uvicorn app:app --reload --host 127.0.0.1 --port 8000
 
 
 Frontend
 
 cd ../frontend
+
 python -m http.server 5173
+
 # open http://localhost:5173
 
 
 The frontend auto-matches your host: localhost:5173 → localhost:8000, 127.0.0.1:5173 → 127.0.0.1:8000.
 
+
 🔌 API (short)
 
 POST /upload — multipart/form-data with file
+
 → indexes chunks; returns { ok, file, chunks, bytes, ftype }
 
+
 POST /ask — JSON { "query": "...", "top_k": 5 }
+
 → returns { answer, sources[], used_model }
 
 GET /llm/health — Ollama status
 
+
 ⚙️ Env Vars (optional)
+
 Variable	Default	Note
+
 OLLAMA_URL	http://127.0.0.1:11434	Ollama HTTP endpoint
+
 OLLAMA_MODEL	qwen2.5:7b-instruct	Chat model
+
 UPLOAD_DIR	./uploads	Stored uploads
+
 QDRANT_URL	http://127.0.0.1:6333	Qdrant URL
+
 QDRANT_API_KEY	(empty)	Needed for Qdrant Cloud
+
 QDRANT_COLLECTION	docs_auto	Base name (auto _768)
+
+
 📂 Structure
+
 project/
 
 ├─ frontend/
