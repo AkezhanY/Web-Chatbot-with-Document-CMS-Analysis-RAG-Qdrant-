@@ -1,58 +1,124 @@
 # Web-Chatbot-with-Document-CMS-Analysis-RAG-Qdrant-
-A small end-to-end RAG system you can embed into any web page. Users upload files (CSV, DOCX, PDF, TXT/MD), the backend parses and chunks content, creates embeddings, stores them in Qdrant, and answers questions using the most relevant fragments and a local LLM (via Ollama).
+A lightweight web app that lets you upload documents (CSV/DOCX/PDF/TXT) and ask questions answered from those files using a local RAG stack (embeddings + vector DB + LLM). Clean, responsive UI with multi-language (EN/PL/RU).
 
-Highlights
-· Minimal FastAPI backend: /upload, /ask, /llm/health
 
-· Vector DB: Qdrant (local Docker or Cloud)
+✨ Features
 
-· Embeddings: Sentence Transformers intfloat/e5-base-v2 (768-dim)
+📁 Upload CSV / DOCX / PDF (text) / TXT / MD
 
-· LLM: Ollama (default model qwen2.5:7b-instruct)
+❓ Ask questions — answers are grounded in your files (RAG)
 
-· Plain HTML/CSS/JS frontend with i18n (EN/PL/RU) and a clean “bubble chat” UI
+🧷 Shows sources used for each answer
 
-· Works fully offline (except model downloads)
+🌐 Multi-language UI: English · Polski · Русский
 
-Features
+⚡ Simple bubble-chat interface, fully responsive
 
-Upload files (.csv, .docx, .pdf (text PDFs), .txt, .md)
-Robust parsing for TXT/CSV/PDF(DOC-TEXT)/DOCX, automatic chunking (size 800, overlap 150)
-Batch embedding + upsert to Qdrant with payload metadata (file name/type/summary)
-RAG: semantic search for top-K fragments → LLM answer grounded in context
-Sources list in responses
-Frontend language switch (EN/PL/RU) for all labels/placeholders/buttons
-Frontend automatically matches API host (localhost vs 127.0.0.1)
-Note: scanned PDFs (pure images) are not OCR’d by default. See Troubleshooting.
+🧩 Optional CMS text import (JSON/TXT) ready to plug in
 
-Stack
+🧪 Health check endpoint for LLM
 
-Frontend: HTML, CSS, vanilla JS
-Backend: Python, FastAPI, httpx
+
+🧠 Tech Stack
+
+Frontend: HTML, CSS, vanilla JS (i18n, dynamic API host)
+
+Backend: Python, FastAPI
+
 Embeddings: SentenceTransformers intfloat/e5-base-v2 (768-dim)
+
 Vector DB: Qdrant (COSINE)
-LLM: Ollama (qwen2.5:7b-instruct by default)
-Parsers: pdfminer.six (text PDFs), python-docx, pandas (CSV)
 
-Project Structure
+LLM: Ollama (qwen2.5:7b-instruct)
+
+🚀 Run Locally
+
+Prereqs: Python 3.10+, Docker (for Qdrant) or Qdrant Cloud, Ollama installed.
+
+Qdrant
+
+docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
+
+
+Ollama
+
+ollama pull qwen2.5:7b-instruct
+ollama serve
+
+
+Backend
+
+cd backend
+python -m venv .venv
+# Windows: . .venv/Scripts/activate
+# macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app:app --reload --host 127.0.0.1 --port 8000
+
+
+Frontend
+
+cd ../frontend
+python -m http.server 5173
+# open http://localhost:5173
+
+
+The frontend auto-matches your host: localhost:5173 → localhost:8000, 127.0.0.1:5173 → 127.0.0.1:8000.
+
+🔌 API (short)
+
+POST /upload — multipart/form-data with file
+→ indexes chunks; returns { ok, file, chunks, bytes, ftype }
+
+POST /ask — JSON { "query": "...", "top_k": 5 }
+→ returns { answer, sources[], used_model }
+
+GET /llm/health — Ollama status
+
+⚙️ Env Vars (optional)
+Variable	Default	Note
+OLLAMA_URL	http://127.0.0.1:11434	Ollama HTTP endpoint
+OLLAMA_MODEL	qwen2.5:7b-instruct	Chat model
+UPLOAD_DIR	./uploads	Stored uploads
+QDRANT_URL	http://127.0.0.1:6333	Qdrant URL
+QDRANT_API_KEY	(empty)	Needed for Qdrant Cloud
+QDRANT_COLLECTION	docs_auto	Base name (auto _768)
+📂 Structure
 project/
-├── frontend/
-│   ├── index.html       # chat UI + i18n
-│   ├── style.css
-│   └── script.js        # upload, ask, i18n, dynamic API host
-│
-├── backend/
-│   ├── app.py           # FastAPI: /upload, /ask, /llm/health
-│   ├── qdrant_utils.py  # Qdrant helpers (COSINE, dim=768)
-│   ├── embeddings.py    # e5-base-v2, prefixes 'passage:'/'query:'
-│   ├── document_parser.py# parsing + chunking
-│   └── requirements.txt
-│
-└── README.md
+├─ frontend/
+│  ├─ index.html
+│  ├─ style.css
+│  └─ script.js
+└─ backend/
+   ├─ app.py
+   ├─ qdrant_utils.py
+   ├─ embeddings.py
+   ├─ document_parser.py
+   └─ requirements.txt
 
-Prerequisites
+🧩 How It Works (RAG)
 
-Python 3.10+ (works on 3.13)
-Docker (to run Qdrant locally) or Qdrant Cloud account
-Ollama installed and running
-Windows users: C++ Build Tools may be required to build some wheels on first install
+Parse files → chunk text (800 chars, 150 overlap).
+
+Create embeddings (e5-base-v2) with proper prefixes:
+passage: … for chunks, query: … for questions.
+
+Store vectors + metadata in Qdrant (COSINE).
+
+On /ask, retrieve top-K fragments and let the LLM answer using only that context.
+
+🛠 Troubleshooting
+
+“Network error” in UI: ensure backend runs at http://127.0.0.1:8000; check DevTools → Network.
+
+Qdrant dimension error: the app (re)creates a _768 collection; remove old mismatched ones.
+
+PDF has no text: likely a scanned PDF; add OCR (Tesseract) if needed.
+
+No results: make sure files were indexed (look for “chunks” in upload response).
+
+📜 License
+
+MIT. Use, adapt, and ship.
+
+Parsers: pdfminer.six, python-docx, pandasuild some wheels on first install
