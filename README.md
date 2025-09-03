@@ -85,15 +85,25 @@ QDRANT_API_KEY	(empty)	Needed for Qdrant Cloud
 QDRANT_COLLECTION	docs_auto	Base name (auto _768)
 📂 Structure
 project/
+
 ├─ frontend/
+
 │  ├─ index.html
+
 │  ├─ style.css
+
 │  └─ script.js
+
 └─ backend/
+
    ├─ app.py
+   
    ├─ qdrant_utils.py
+   
    ├─ embeddings.py
+   
    ├─ document_parser.py
+   
    └─ requirements.txt
 
 🧩 How It Works (RAG)
