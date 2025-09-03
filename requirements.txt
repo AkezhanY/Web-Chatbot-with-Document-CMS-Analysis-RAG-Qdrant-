@@ -1,0 +1,21 @@
+fastapi==0.112.2
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+pydantic==2.8.2
+
+
+qdrant-client==1.9.2
+sentence-transformers==2.7.0
+
+
+PyMuPDF==1.24.9
+python-docx==1.1.2
+docx2txt==0.8
+mammoth==1.8.0
+pdfminer.six==20240706
+pandas==2.2.2
+pillow==10.4.0
+pytesseract==0.3.13
+textract==1.6.5 # optional (.doc)
+python-magic==0.4.27 # optional
+loguru==0.7.2
