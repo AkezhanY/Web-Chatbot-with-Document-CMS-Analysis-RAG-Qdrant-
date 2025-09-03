@@ -7,12 +7,12 @@ from embeddings import embed_query, embed_passage, embed_passages, dim
 
 Q_URL = os.getenv("QDRANT_URL", "http://127.0.0.1:6333")
 Q_API_KEY = os.getenv("QDRANT_API_KEY")
-BASE_COL = os.getenv("QDRANT_COLLECTION", "docs_auto")  # базовое имя без суффикса
+BASE_COL = os.getenv("QDRANT_COLLECTION", "docs_auto")  
 
 client = QdrantClient(url=Q_URL, api_key=Q_API_KEY)
 
 def _col_name() -> str:
-    # чтобы не словить рассинхрон по размерности — имя коллекции включает dim
+    
     return f"{BASE_COL}_{dim}"
 
 def ensure_collection():
@@ -38,7 +38,7 @@ def upsert_chunks(chunks: List[str], meta: Dict[str, Any]):
         return
     name = _col_name()
 
-    # Считаем эмбеддинги батчем — быстрее и корректно
+    
     vecs = embed_passages(chunks)  # List[List[float]]
     points = [
         PointStruct(
@@ -95,3 +95,4 @@ def unique_files(limit: int = 5):
         if len(out) >= limit:
             break
     return out
+
