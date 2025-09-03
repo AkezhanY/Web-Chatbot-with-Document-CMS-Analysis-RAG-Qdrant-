@@ -1,7 +1,7 @@
 // === CONFIG ===
 const API = "http://127.0.0.1:8000";
 
-// === Session (только для отображения)
+
 function getSessionId() {
   let id = localStorage.getItem("session_id");
   if (!id) { id = crypto.randomUUID(); localStorage.setItem("session_id", id); }
@@ -207,13 +207,13 @@ async function indexFiles() {
   }
 }
 
-// === Events & initial ===
+// === Events  initial ===
 document.getElementById("sendBtn").addEventListener("click", sendMessage);
 document.getElementById("message").addEventListener("keydown", (e)=>{ if(e.key==="Enter") sendMessage(); });
 document.getElementById("indexBtn").addEventListener("click", indexFiles);
 document.getElementById("lang").addEventListener("change", (e)=> applyLang(e.target.value));
 
-// применяем язык и показываем приветствие
+
 applyLang(localStorage.getItem("ui_lang") || "ru");
 addMessage(t("greeting"), "bot");
 
