@@ -103,6 +103,8 @@ project/
    ├─ embeddings.py
    
    ├─ document_parser.py
+
+   ├─ seed_from_folder.py
    
    └─ requirements.txt
 
