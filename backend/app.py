@@ -39,9 +39,9 @@ async def llm_health():
         r = await c.get(f"{OLLAMA_URL}/api/tags")
         return {"ok": r.status_code == 200, "status": r.status_code, "body": r.text[:300]}
 
-# ----- Upload (надёжное сохранение + диагностика) -----
+# ----- Upload  -----
 from typing import Optional, List
-# ... остальное без изменений ...
+
 
 def _ext(filename: str) -> str:
     return os.path.splitext(filename or "")[1].lower()
@@ -71,7 +71,7 @@ async def _save_and_parse(one: UploadFile):
         })
         return result, None  # не индексируем
 
-    # короткое summary без ожиданий от LLM (или с fallback как у тебя):
+    
     prompt = "Сделай краткое резюме файла (2–4 предложения): тема, назначение, ключевые разделы.\n\n" + full_text[:4000]
     try:
         async with httpx.AsyncClient(timeout=120) as c:
@@ -185,3 +185,4 @@ def parsers():
 @app.get("/")
 def root():
     return {"ok": True, "endpoints": ["/llm/health", "/upload", "/ask", "/debug/parsers"]}
+
