@@ -84,7 +84,7 @@ def read_docx(path: str) -> str:
         return ""
 
 
-# ---------- RAW fallback (железный) ----------
+# ---------- RAW fallback  ----------
 def _raw_text(path: str) -> str:
     """
     Считывает байты и пытается выжать текст даже при «кривой» кодировке.
@@ -93,7 +93,7 @@ def _raw_text(path: str) -> str:
     try:
         with open(path, "rb") as f:
             b = f.read()
-        # простой хак: пробуем utf-8, иначе «игнорируем» битые байты
+        
         return _clean(b.decode("utf-8", "ignore"))
     except Exception:
         return ""
@@ -114,9 +114,9 @@ def read_file(path: str) -> tuple[str, str]:
     else:
         text, ftype = read_txt(path), "txt"
 
-    # ЖЁСТКИЙ ФОЛЛБЭК: если ничего не извлекли — пробуем сырое чтение
+    
     if not (text or "").strip():
-        # для PDF/DOCX не включаем raw, чтобы не индексировать мусор из бинарника
+        
         if ext in (".txt", ".md", ".json", ".csv"):
             text = _raw_text(path)
 
@@ -130,3 +130,4 @@ def parse_to_chunks(path: str) -> Tuple[List[str], str, str]:
     text, ftype = read_file(path)
     chunks = chunk_text(text) if text else []
     return chunks, ftype, text or ""
+
