@@ -132,5 +132,3 @@ No results: make sure files were indexed (look for “chunks” in upload respon
 📜 License
 
 MIT. Use, adapt, and ship.
-
-Parsers: pdfminer.six, python-docx, pandasuild some wheels on first install
