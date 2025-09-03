@@ -3,10 +3,15 @@ A small end-to-end RAG system you can embed into any web page. Users upload file
 
 Highlights
 · Minimal FastAPI backend: /upload, /ask, /llm/health
+
 · Vector DB: Qdrant (local Docker or Cloud)
+
 · Embeddings: Sentence Transformers intfloat/e5-base-v2 (768-dim)
+
 · LLM: Ollama (default model qwen2.5:7b-instruct)
+
 · Plain HTML/CSS/JS frontend with i18n (EN/PL/RU) and a clean “bubble chat” UI
+
 · Works fully offline (except model downloads)
 
 Features
