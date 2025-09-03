@@ -1,0 +1,36 @@
+﻿* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background: #f6f7f9; color: #111827;
+}
+.layout {
+  display: grid; grid-template-columns: 1fr 360px; gap: 20px;
+  height: 100vh; padding: 20px;
+}
+.chat { background: #fff; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+.chatbox { padding: 16px; overflow-y: auto; flex: 1; border-bottom: 1px solid #eee; }
+.message { max-width: 80%; padding: 12px 14px; border-radius: 14px; margin: 6px 0; line-height: 1.4; }
+.message.bot  { background: #f1f5f9; color: #0f172a; border-top-left-radius: 4px; }
+.message.user { background: #10b981; color: #fff; margin-left: auto; border-top-right-radius: 4px; }
+.composer { display: grid; grid-template-columns: 120px 1fr 140px; gap: 10px; padding: 12px; }
+.composer input, .composer select { padding: 12px 14px; border: 1px solid #ddd; border-radius: 12px; }
+.composer button { padding: 12px 16px; background: #16a34a; color: #fff; border: 0; border-radius: 12px; cursor: pointer; }
+.panel { background: #fff; border-radius: 16px; padding: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+.panel h3 { margin: 6px 0 10px; }
+.panel input[type=file] { width: 100%; margin-bottom: 8px; }
+.panel button { display: inline-block; padding: 10px 12px; background: #0ea5e9; color: #fff; border: 0; border-radius: 10px; cursor: pointer; }
+.hint { margin-top: 12px; font-size: 12px; color: #64748b; }
+@media (max-width: 980px) {
+  .layout { grid-template-columns: 1fr; height: auto; }
+  .panel { order: -1; }
+  .chat { height: 70vh; }
+}
+
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.file-controls { display: flex; align-items: center; gap: 10px; margin: 6px 0 10px; }
+.secondary { background: #64748b; }          /* серо-синяя кнопка для выбора */
+.file-names { font-size: 12px; color: #64748b; }

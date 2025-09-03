@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>RAG Chatbot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+    <main class="chat">
+      <div id="chatbox" class="chatbox"></div>
+
+      <div class="composer">
+        <select id="lang" title="Язык интерфейса">
+          <option value="ru">Русский</option>
+          <option value="pl">Polski</option>
+          <option value="en">English</option>
+        </select>
+
+        <input id="message" type="text" placeholder="" />
+        <button id="sendBtn" type="button" data-i18n="send_button">Отправить</button>
+      </div>
+    </main>
+
+    <aside class="panel">
+      <h3 data-i18n="upload_title">Загрузить файлы</h3>
+
+<!-- прячем нативный file -->
+<input id="files" class="visually-hidden" type="file" multiple accept=".pdf,.docx,.txt,.md,.csv" />
+
+<!-- наш управляемый UI -->
+<div class="file-controls">
+  <button id="chooseBtn" type="button" class="secondary" data-i18n="choose_button">Выбрать файлы</button>
+  <span id="fileNames" class="file-names" data-i18n="no_file">Файл не выбран</span>
+</div>
+
+<button id="indexBtn" type="button" data-i18n="index_button">Индексировать</button>
+
+
+      <div class="hr"></div>
+
+      <div class="hint">
+        <div><span data-i18n="server_label">Сервер:</span> <b id="srv">http://127.0.0.1:8000</b></div>
+        <div><span data-i18n="endpoints_label">Эндпоинты:</span> <code>/upload</code>, <code>/ask</code></div>
+        <div class="small"><span data-i18n="session_label">Сессия:</span> <code id="sid"></code></div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
